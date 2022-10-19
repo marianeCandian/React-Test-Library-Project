@@ -7,7 +7,7 @@ describe('Testando o componente PokemonDetails.js', () => {
   test('Verifica se é exibido na tela as informações do pokemon selecionado', () => {
     renderWithRouter(<App />);
 
-    const link = screen.getByRole('link', { name: 'More details' });
+    const link = screen.getByRole('link', { name: /More details/i });
     userEvent.click(link);
     const nameDetails = screen.getByText('Pikachu Details');
     expect(nameDetails).toHaveTextContent('Pikachu Details');
