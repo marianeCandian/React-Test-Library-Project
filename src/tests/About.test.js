@@ -1,46 +1,31 @@
-import { screen, act } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import App from '../App';
+import { screen } from '@testing-library/react';
+import About from '../pages/About';
 import renderWithRouter from '../renderWithRouter';
 
-describe('Testando o componente App.js', () => {
-  test('Se é direcionada para url / ao clicar em home', () => {
-    const { history } = renderWithRouter(<App />);
-
-    const homeLink = screen.getByRole('link', { name: /home/i });
-    expect(homeLink).toBeInTheDocument();
-    userEvent.click(homeLink);
-    const { location: { pathname } } = history;
-    expect(pathname).toBe('/');
+describe('Testando o componente About.js', () => {
+  test('Verifica se a página contém as informações sobre o jogo', () => {
+    renderWithRouter(<About />);
+    const texto = screen.getByText('This application simulates a Pokédex, a digital encyclopedia containing all Pokémons');
+    expect(texto).toBeInTheDocument();
   });
 
-  test('Se é direcionada para url /about ao clicar em About', () => {
-    const { history } = renderWithRouter(<App />);
-
-    const aboutLink = screen.getByRole('link', { name: /about/i });
-    expect(aboutLink).toBeInTheDocument();
-    userEvent.click(aboutLink);
-    const { location: { pathname } } = history;
-    expect(pathname).toBe('/about');
+  test('Verifica se a página contém o h2 com o título About Pokédex', () => {
+    renderWithRouter(<About />);
+    const title = screen.getByRole('heading', { level: 2, name: 'About Pokédex' });
+    expect(title).toBeInTheDocument();
   });
 
-  test('Se é direcionada para url /favorites ao clicar em Pokémons Favoritado', () => {
-    const { history } = renderWithRouter(<App />);
-
-    const favoritesLink = screen.getByRole('link', { name: /favorite pokémons/i });
-    expect(favoritesLink).toBeInTheDocument();
-    userEvent.click(favoritesLink);
-    const { location: { pathname } } = history;
-    expect(pathname).toBe('/favorites');
+  test('Verifica se a página contém dois parágrafos', () => {
+    renderWithRouter(<About />);
+    const texto = screen.getByText('One can filter Pokémons by type, and see more details for each one of them');
+    expect(texto).toBeInTheDocument();
   });
 
-  test('Se é direcionada para página Not Found se a url for desconhecida', () => {
-    const { history } = renderWithRouter(<App />);
-
-    act(() => {
-      history.push('/xablau');
-    });
-    const { location: { pathname } } = history;
-    expect(pathname).toBe('/xablau');
+  test('Verifica se a página contém a imagem da Pokédex', () => {
+    renderWithRouter(<About />);
+    const imagem = screen.getByRole('img');
+    const url = 'https://cdn2.bulbagarden.net/upload/thumb/8/86/Gen_I_Pok%C3%A9dex.png/800px-Gen_I_Pok%C3%A9dex.png';
+    expect(imagem).toBeInTheDocument();
+    expect(imagem.src).toContain(url);
   });
 });
