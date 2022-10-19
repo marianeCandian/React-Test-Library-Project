@@ -6,7 +6,7 @@ import renderWithRouter from '../renderWithRouter';
 describe('Testando o componente Pokemon.js', () => {
   test('Verifica se é exibido um link com a url /pokemons/<id>', () => {
     renderWithRouter(<App />);
-    const linkId = screen.getByRole('link', { name: 'More details' });
+    const linkId = screen.getByRole('link', { name: /more details/i });
     expect(linkId).toBeInTheDocument();
   });
 
